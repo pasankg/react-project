@@ -1,10 +1,10 @@
 import './App.css';
+import { ArticlesApp } from './ArticlesApp';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-      </header>
+    <div className="App">      
+      <ArticlesApp/>
     </div>
   );
 }
