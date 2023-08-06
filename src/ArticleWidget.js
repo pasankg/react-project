@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { map } from 'lodash'
 import type { TableProps } from 'antd';
 import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
@@ -7,11 +8,12 @@ export default function ArticleWidget() {
 
  const [data, setData] = useState();
 
- useEffect(() => {
+ useEffect(() => { //componentDidMount
   console.log('Request made');
   fetch('https://api.spaceflightnewsapi.net/v3/articles')
    .then(res => res.json())
    .then(obj => setData(obj))
+   .catch(err => console.log(err))
    
   // .then(
   //  (res) => {
@@ -29,6 +31,8 @@ export default function ArticleWidget() {
   //  }
   // )
  }, []);
+
+
  let output = '';
  if(data) {
   console.log('Rendered data');
@@ -42,6 +46,25 @@ export default function ArticleWidget() {
   )
  }
 
+ //hook returns a memoized value 
+ const rows = useMemo(() => map(data, ({ id, title, url, newsSite }) => { 
+    return <tr><td> <span>{id}</span> </td>
+    <td> <span>{title}</span> </td>
+    <td> <span>{url}</span> </td>
+    <td> <span>{newsSite}</span> </td></tr>;
+ }, [data]))
+
+//hook returns a memoized callback function.
+ const renderRows = useCallback(() => {
+    //return (data || []).map(() => {})
+    return map(data, ({ id, title, url, newsSite }) => {    
+        return <tr><td> <span>{id || '-'}</span> </td>
+        <td> <span>{title || '-'}</span> </td>
+        <td> <span>{url || '-'}</span> </td>
+        <td> <span>{newsSite || '-'}</span> </td></tr>;
+       })
+ }, [data])
+
  return (
   <>
    <h2>Article Objects</h2>
@@ -53,7 +76,7 @@ export default function ArticleWidget() {
      <th>Url</th>
      <th>Options</th>
     </tr>
-    {output}
+    {rows} {/** renderRows() */}
    </table>
   </>
  );

@@ -1,21 +1,18 @@
 import { useState, useRef } from "react";
-import ArticleWidget from "./ArticleWidget";
+import { Layout, Space } from 'antd'
+// import ArticleWidget from "./ArticleWidget";
+import { ArticleWidget, NewsWidget } from './components'
 
 export default function WidgetApp() {
- 
- // const [data, getData] = useState({});
 
+    // const [data, getData] = useState({});
 
- function requestData(e) {
-  e.preventDefault();
-  // getData()
- }
-
- return (
-  <>
-   <h1>Widget App</h1>
-   <button onClick={requestData}>Load Articles</button>
-   <ArticleWidget />
-  </>
- );
+    return (
+        <Space direction="vertical" style={{ width: '80%' }} size={[0, 48]}>
+            <Layout>
+                <h1>Widget App</h1>
+                <ArticleWidget />
+                <NewsWidget />
+            </Layout></Space>
+    );
 }
