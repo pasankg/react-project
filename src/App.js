@@ -1,10 +1,15 @@
 import './App.css';
-import { ArticlesApp } from './ArticlesApp';
+import { StrictMode } from 'react';
+// import { ArticlesApp } from './ArticlesApp';
+import WidgetApp from './WidgetApp';
 
 function App() {
   return (
     <div className="App">      
-      <ArticlesApp/>
+      {/* <ArticlesApp/> */}
+      <StrictMode>
+        {<WidgetApp/>}
+      </StrictMode>
     </div>
   );
 }
